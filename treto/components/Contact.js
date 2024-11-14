@@ -1,9 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import emailjs from 'emailjs-com';
 
 const Contact = () => {
+  const [profile, setProfile] = useState([]);
+  
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/users');
+        const data = await response.json();
+        if (data.length > 0) {
+          setProfile(data[0]); // Set the first profile data
+        }
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    };
+    fetchAbout();
+  }, []);
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    from_name: '',
+    reply_to: '',
     message: '',
   });
 
@@ -18,26 +36,32 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:5000/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    console.log("Form data before sending:", formData);
 
-    if (response.ok) {
-      setSuccessMessage('Thanks, your message is sent successfully.');
-      setErrorMessage('');
-      setFormData({ name: '', email: '', message: '' });
-    } else {
-      const error = await response.json();
-      setErrorMessage(error.message || 'There was an error, please try again.');
-      setSuccessMessage('');
-    }
+    // Send email using the form element (e.target)
+    emailjs
+      .sendForm(
+        'service_pc77ozt', // EmailJS service ID
+        'template_8r8khl7', // EmailJS template ID
+        e.target, // Pass the form element directly
+        'IxkgiJNFwjHIYnPL4' // Your EmailJS user ID
+      )
+      .then(
+        (result) => {
+          console.log("Email sent successfully:", result.text);
+          setSuccessMessage('Thanks, your message is sent successfully.');
+          setErrorMessage('');
+          setFormData({ from_name: '', reply_to: '', message: '' });
+        },
+        (error) => {
+          console.error("Error sending email:", error);
+          setErrorMessage(error.text || 'There was an error, please try again.');
+          setSuccessMessage('');
+        }
+      );
   };
 
   return (
@@ -53,16 +77,13 @@ const Contact = () => {
             <div className="mil-contact-card mil-mb-30">
               <p className="mil-upper mil-mb-30">Email</p>
               <p>
-                <a href="mailto:hello@treto.co">khawlabenchorfi@gmail.com</a>
-                <br />
-                <a href="mailto:projects@treto.co">projects@treto.co</a>
+                <a href={`mailto:${profile.email}`}>{profile.email}</a>
               </p>
             </div>
             <div className="mil-contact-card mil-mb-30">
               <p className="mil-upper mil-mb-30">Phone</p>
               <p>
-                <a href="tel:+5636366060">(212) 607755291</a>
-                 
+                <a href={`tel:${profile.tel}`}>{profile.tel}</a>
               </p>
             </div>
           </div>
@@ -76,9 +97,10 @@ const Contact = () => {
                   <input
                     type="text"
                     className="mil-mb-30"
-                    name="name"
-                    value={formData.name}
+                    name="from_name"
+                    value={formData.from_name}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="col-lg-6">
@@ -88,9 +110,10 @@ const Contact = () => {
                   <input
                     type="email"
                     className="mil-mb-30"
-                    name="email"
-                    value={formData.email}
+                    name="reply_to"
+                    value={formData.reply_to}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="col-lg-12">
@@ -102,6 +125,7 @@ const Contact = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="col-lg-12 mil-text-row">

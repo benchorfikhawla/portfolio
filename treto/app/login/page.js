@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Link from "next/link";
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,8 @@ const Login = () => {
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  
+  const router = useRouter(); // Initialize useRouter for navigation
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -22,31 +24,43 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const response = await fetch('http://localhost:5000/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    // Simple validation
+    if (!formData.email || !formData.password) {
+      setErrorMessage('Please fill out both email and password.');
+      return;
+    }
+  console.log(formData);
+    // Fetch request to login
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
   
-    const data = await response.json();
+      const data = await response.json();
   
-    if (response.ok) {
-      setSuccessMessage('Login successful!');
-      setErrorMessage('');
-      setFormData({ email: '', password: '' });
-      localStorage.setItem('token', data.token);  
-      
-      // Redirection vers l'interface admin
-      window.location.href = 'http://localhost:3001/admin/dashboard';
-    } else {
-      setErrorMessage(data.message || 'There was an error, please try again.');
+      if (response.ok) {
+        setSuccessMessage('Login successful!');
+        setErrorMessage('');
+        setFormData({ email: '', password: '' });
+        localStorage.setItem('token', data.token);
+  
+        // Redirect to user profile page in the admin section
+        router.push('http://localhost:3001/admin/user-profile'); // Updated URL
+      } else {
+        setErrorMessage(data.message || 'There was an error, please try again.');
+        setSuccessMessage('');
+      }
+    } catch (error) {
+      setErrorMessage('Network error. Please try again later.');
       setSuccessMessage('');
     }
   };
   
-   
+
   return (
     <div className="mil-section mil-op-space-90">
       <div className="mil-bg-item" style={{ bottom: '-5%', right: 0, transform: 'rotate(-25deg)' }} />
@@ -69,6 +83,7 @@ const Login = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="col-lg-12">
@@ -81,6 +96,7 @@ const Login = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="col-lg-12 mil-text-row">

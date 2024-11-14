@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useUser } from "contexts/UserContext";
 import {
   Button,
   Card,
@@ -14,6 +15,7 @@ import {
 import axios from "axios";
 
 function UserProfile() {
+  const { userEmail } = useUser();
   const [user, setUser] = useState({
     _id: "", // Added user ID to keep track
     name: "",
@@ -30,19 +32,19 @@ function UserProfile() {
   const [imageFile, setImageFile] = useState(null);
   const [imageProfileFile, setImageProfileFile] = useState(null);
 
-  const email = "khawla.benchorfi@example.com"; // Set the email to fetch data by email
+   
 
   useEffect(() => {
     // Fetch user profile data by email when the component mounts
     axios
-      .get(`http://localhost:5000/api/users/profile?email=${email}`)
+      .get(`http://localhost:5000/api/users/profile?email=${userEmail}`)
       .then((response) => {
         setUser(response.data);
       })
       .catch((error) => {
         console.error("Error fetching user profile:", error);
       });
-  }, [email]);
+  },[userEmail]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -35,27 +35,45 @@ function Sidebar(props) {
   if (logo !== undefined) {
     if (logo.outterLink !== undefined) {
       logoImg = (
-        <a href={logo.outterLink} className="simple-text logo-mini" target="_blank" onClick={props.toggleSidebar}>
+        <a
+          href={logo.outterLink}
+          className="simple-text logo-mini"
+          target="_blank"
+          onClick={props.toggleSidebar}
+        >
           <div className="logo-img">
             <img src={logo.imgSrc} alt="react-logo" />
           </div>
         </a>
       );
       logoText = (
-        <a href={logo.outterLink} className="simple-text logo-normal" target="_blank" onClick={props.toggleSidebar}>
+        <a
+          href={logo.outterLink}
+          className="simple-text logo-normal"
+          target="_blank"
+          onClick={props.toggleSidebar}
+        >
           {logo.text}
         </a>
       );
     } else {
       logoImg = (
-        <Link to={logo.innerLink} className="simple-text logo-mini" onClick={props.toggleSidebar}>
+        <Link
+          to={logo.innerLink}
+          className="simple-text logo-mini"
+          onClick={props.toggleSidebar}
+        >
           <div className="logo-img">
             <img src={logo.imgSrc} alt="react-logo" />
           </div>
         </Link>
       );
       logoText = (
-        <Link to={logo.innerLink} className="simple-text logo-normal" onClick={props.toggleSidebar}>
+        <Link
+          to={logo.innerLink}
+          className="simple-text logo-normal"
+          onClick={props.toggleSidebar}
+        >
           {logo.text}
         </Link>
       );
@@ -66,12 +84,7 @@ function Sidebar(props) {
       {({ color }) => (
         <div className="sidebar" data={color}>
           <div className="sidebar-wrapper" ref={sidebarRef}>
-            {logoImg !== null || logoText !== null ? (
-              <div className="logo">
-                {logoImg}
-                {logoText}
-              </div>
-            ) : null}
+            
             <Nav>
               {routes.map((prop, key) => {
                 if (prop.redirect) return null;

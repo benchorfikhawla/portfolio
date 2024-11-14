@@ -4,7 +4,6 @@ import { Banner2 } from "@/components/Banner";
 import Contact from "@/components/Contact";
 import Education from "@/components/Education";
 import Experience from "@/components/Experience";
-import Reviews from "@/components/Reviews";
 import Services from "@/components/Services";
 import Skills from "@/components/Skills";
 import Pagination from "@/layout/Pagination";
@@ -39,9 +38,6 @@ const Index = () => {
         {/* services */}
         <Services />
         {/* services end */}
-        {/* reviews */}
-        <Reviews />
-        {/* reviews end */}
         {/* contacts */}
         <Contact />
         {/* contacts end */}

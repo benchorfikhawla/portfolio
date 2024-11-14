@@ -81,7 +81,7 @@ const Page = () => {
                   </div>
                   <div className="mil-mb-30">
                     <p className="mil-upper mil-mb-10">Client Name:</p>
-                    <p className="mil-text-sm">{project.client}</p>
+                    <p className="mil-text-sm">{project.clientName}</p>
                   </div>
                 </div>
               </div>

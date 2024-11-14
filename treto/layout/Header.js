@@ -67,14 +67,7 @@ const DefaultHeader = () => {
               <i className="fab fa-youtube" />
             </a>
           </li>
-          {/* Add the login icon */}
-          <li>
-            <Link legacyBehavior href="/login">
-              <a className="social-icon">
-                <i className="fas fa-user" /> {/* FontAwesome user icon */}
-              </a>
-            </Link>
-          </li>
+           
         </ul>
       </div>
     </div>
@@ -87,7 +80,7 @@ const Header1 = () => {
       <div className="mil-tp-frame">
         <Link legacyBehavior href="/">
           <a className="mil-logo">
-            <img src="/img/logo.png" alt="logo" />
+            <img src="/img/logonew.png" alt="logo" />
           </a>
         </Link>
         <Nav />
@@ -130,14 +123,7 @@ const Header1 = () => {
               <i className="fab fa-youtube" />
             </a>
           </li>
-          {/* Add the login icon */}
-          <li>
-            <Link legacyBehavior href="/login">
-              <a className="social-icon">
-                <i className="fas fa-user" /> {/* FontAwesome user icon */}
-              </a>
-            </Link>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -149,22 +135,11 @@ const Header2 = () => {
     <div className="mil-top-panel">
       <Link legacyBehavior href="/">
         <a className="mil-logo">
-          <img src="/img/logo.png" alt="logo" />
+          <img src="/img/logonew.png" alt="logo" />
         </a>
       </Link>
       <Nav />
-      <div className="mil-social">
-        <ul>
-          {/* Add the login icon */}
-          <li>
-            <Link legacyBehavior href="/login">
-              <a className="social-icon">
-                <i className="fas fa-user" /> {/* FontAwesome user icon */}
-              </a>
-            </Link>
-          </li>
-        </ul>
-      </div>
+      
     </div>
   );
 };

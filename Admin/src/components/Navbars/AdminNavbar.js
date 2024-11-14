@@ -1,23 +1,11 @@
-/*!
-
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, { useEffect, useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
+import { Link } from 'react-router-dom';
+import { useUser } from "contexts/UserContext";
+import axios from "axios";
+
+ 
 
 // reactstrap components
 import {
@@ -71,6 +59,30 @@ function AdminNavbar(props) {
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
+  const { userEmail } = useUser();
+  const [user, setUser] = useState({
+    _id: "", // Added user ID to keep track
+    name: "",
+    profession: "",
+    bio: "",
+    biohome: "",
+    email: "",
+    tel: "",
+    description: "",
+    image: "",
+    imageprofile: "",
+  });
+  useEffect(() => {
+    // Fetch user profile data by email when the component mounts
+    axios
+      .get(`http://localhost:5000/api/users/profile?email=${userEmail}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  },[userEmail]);
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -98,51 +110,6 @@ function AdminNavbar(props) {
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar">
-                <Button color="link" onClick={toggleModalSearch}>
-                  <i className="tim-icons icon-zoom-split" />
-                  <span className="d-lg-none d-md-block">Search</span>
-                </Button>
-              </InputGroup>
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  data-toggle="dropdown"
-                  nav
-                >
-                  <div className="notification d-none d-lg-block d-xl-block" />
-                  <i className="tim-icons icon-sound-wave" />
-                  <p className="d-lg-none">Notifications</p>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Mike John responded to your email
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      You have 5 more tasks
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Your friend Michael is in town
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another notification
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another one
-                    </DropdownItem>
-                  </NavLink>
-                </DropdownMenu>
-              </UncontrolledDropdown>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -151,21 +118,24 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
+                  <img 
+                      alt="Profile" 
+                      src={user.imageprofile ? `http://localhost:5000${user.imageprofile}` : require("assets/img/anime3.png")} 
+                    />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
                   <p className="d-lg-none">Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
+                    <DropdownItem className="nav-item"><Link to="/admin/user-profile" style={{ color: 'black', textDecoration: 'none' }}>Profile</Link></DropdownItem>
                   </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
-                  </NavLink>
+                  
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                  <DropdownItem className="nav-item" style={{ color: 'black' }}>
+                    <Link to="/logout" style={{ color: 'black', textDecoration: 'none' }}>Logout</Link>
+                  </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

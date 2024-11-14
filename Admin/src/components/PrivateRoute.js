@@ -1,22 +1,24 @@
-// /frontend-admin/src/components/PrivateRoute.js
-import React from "react";
-import { Route, Navigate } from "react-router-dom";
+// In a file like `PrivateRoute.js`
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useUser } from 'contexts/UserContext';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const token = localStorage.getItem("token"); // Vérifie si l'utilisateur est authentifié
+const PrivateRoute = ({ children }) => {
+  const { userEmail } = useUser(); // Get userEmail from context
+   
+  if (!userEmail) {
+    // If userEmail is not set, redirect to the login page
+    return <Navigate to="/login" replace />;
+  }
+   
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        token ? (
-          <Component {...props} />
-        ) : (
-          <Navigate to="/login" replace /> // Redirige vers la page de login si non authentifié
-        )
-      }
-    />
-  );
+  return children; // If authenticated, render the children (AdminLayout)
 };
+/* const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem('token'); // Check for token in local storage
+
+  return token ? children : <Navigate to="/login" />; // Redirect to login if not authenticated
+}; */
+
 
 export default PrivateRoute;

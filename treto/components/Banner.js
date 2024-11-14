@@ -56,7 +56,7 @@ const Banner = ( { bgImage = "img/faces/6.jpg" } ) => {
           </div>
           <div className="col-xl-5">
             <img
-              src={`http://localhost:5000${profile.imageprofile}`}  
+              src={`http://localhost:5000${profile.image}`}  
               alt="face"
               className="mil-banner-image"
             />

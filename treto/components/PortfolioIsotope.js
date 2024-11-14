@@ -59,42 +59,10 @@ const PortfolioIsotope = () => {
       <div className="mil-filter">
         <div className="container">
           <ul className="mil-filter-links mil-mb-30">
-            <li>
-              <a
-                href="#"
-                className={`c-pointer ${activeBtn("*")}`}
-                onClick={handleFilterKeyChange("*")}
-              >
-                All
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className={`c-pointer ${activeBtn("fil-link")}`}
-                onClick={handleFilterKeyChange("fil-link")}
-              >
-                Link
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className={`c-pointer ${activeBtn("fil-gallery")}`}
-                onClick={handleFilterKeyChange("fil-gallery")}
-              >
-                Gallery
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className={`c-pointer ${activeBtn("fil-image")}`}
-                onClick={handleFilterKeyChange("fil-image")}
-              >
-                Image
-              </a>
-            </li>
+             
+             
+             
+            
           </ul>
         </div>
       </div>
@@ -108,7 +76,7 @@ const PortfolioIsotope = () => {
                 <Link href={`/project/${projectId}`} legacyBehavior>
                   <div className="mil-portfolio-item mil-square-item mil-mb-60">
                     <div className="mil-cover">
-                      <img src={`http://localhost:5000${project.images[0]}`} alt={project.title} /> {/* Use the correct image URL */}
+                      <img src={`http://localhost:5000${project.images[0]}`} alt={project.title} /> 
                       <div className="mil-hover-link">
                         <i className="fas fa-link" />
                       </div>

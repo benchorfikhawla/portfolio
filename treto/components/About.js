@@ -26,7 +26,7 @@ const About = () => {
         <div className="row justify-content-between align-items-center">
           <div className="col-xl-4">
             <div className="mil-about-person mil-mb-30">
-              <img src={`http://localhost:5000${profile.image}`} alt={profile.name} className="mil-avatar" />
+              <img src={`http://localhost:5000${profile.imageprofile || ''}`}  alt={profile.name} className="mil-avatar" />
             </div>
           </div>
           <div className="col-xl-7">
@@ -38,7 +38,7 @@ const About = () => {
                 <h2 className="mil-up mil-mb-60">{profile.name}</h2>
                 <p className="mil-mb-30">{profile.bio}</p>
                 <div className="mil-buttons-frame">
-                  <Link legacyBehavior href="/portfolio">
+                  <Link legacyBehavior href="https://drive.google.com/file/d/1H0Ywx8HqrywjkW5-AA-QavCkXKH2qxp3/view?usp=sharing">
                     <a className="mil-button">Download CV</a>
                   </Link>
                 </div>
@@ -88,7 +88,7 @@ export const About2 = () => {
               <div className="row justify-content-center">
                 <div className="col-xl-8">
                   <p className="mil-mb-30">{profile.description}</p>
-                  <img src="img/signature.png" alt="signature" className="mil-signature" />
+                   
                 </div>
               </div>
             </div>

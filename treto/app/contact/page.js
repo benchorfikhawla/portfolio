@@ -1,8 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import emailjs from 'emailjs-com';
+ 
 import TretoLayout from "@/layout/TretoLayout";
 
+
 const ContactPage = () => {
+  const [profile, setProfile] = useState([]);
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/users');
+        const data = await response.json();
+        if (data.length > 0) {
+          setProfile(data[0]); // Set the first profile data
+        }
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    };
+
+    fetchAbout();
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,30 +39,35 @@ const ContactPage = () => {
       [name]: value,
     }));
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
     setErrorMessage('');
-
+  
+    // Prepare the data for EmailJS
+    const emailParams = {
+      name: formData.name,
+      email: formData.email,
+      tel: formData.tel,
+      subject: formData.subject,
+      message: formData.message,
+    };
+  
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSuccessMessage("Thanks, your message is sent successfully.");
-        setFormData({ name: '', email: '', tel: '', subject: '', message: '' });
-      } else {
-        const data = await response.json();
-        setErrorMessage(data.message || "There was an error, please try again.");
-      }
+      // Send the email with EmailJS
+      const result = await emailjs.send(
+        'service_pc77ozt', // Replace with your EmailJS service ID
+        'template_otdegdf', // Replace with your EmailJS template ID
+        emailParams,
+        'IxkgiJNFwjHIYnPL4' // Replace with your EmailJS public key
+      );
+  
+      setSuccessMessage("Thanks, your message is sent successfully.");
+      setFormData({ name: '', email: '', tel: '', subject: '', message: '' });
     } catch (error) {
-      setErrorMessage("Network error, please try again.");
+      setErrorMessage("There was an error, please try again.");
     }
   };
 
@@ -61,11 +85,7 @@ const ContactPage = () => {
                 Contact <span className="mil-accent">me</span>
               </p>
               <h2 className="mil-up mil-mb-30">Let's get you an estimate</h2>
-              <p className="mil-left-offset">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor <br /> incididunt ut labore et dolore magna
-                aliqua.
-              </p>
+               
             </div>
             <div className="mil-contact">
               <div className="row justify-content-between">
@@ -74,35 +94,27 @@ const ContactPage = () => {
                   <div className="mil-contact-card mil-mb-30">
                     <p className="mil-upper mil-mb-30">About <span className="mil-accent">me</span></p>
                     <p>
-                      Margaret Anderson <br />
-                      Web and App Developer <br />
-                      Miami, FL <br />
-                      United States of America
+                    {profile.name}<br />
+                    {profile.profession} <br />
                     </p>
                   </div>
                   <div className="mil-contact-card mil-mb-30">
                     <p className="mil-upper mil-mb-30">Email</p>
                     <p>
-                      <a href="mailto:khawlabenchorfi@gmail.com">khawlabenchorfi@gmail.com</a>
+                    <a href={`mailto:${profile.email}`}>{profile.email}</a>
                       <br />
-                      <a href="mailto:projects@treto.co">projects@treto.co</a>
+                       
                     </p>
                   </div>
                   <div className="mil-contact-card mil-mb-30">
                     <p className="mil-upper mil-mb-30">Chats</p>
                     <p>
-                      <a href="tel:+123456789">Telegram</a>
+                    <a href={`tel:${profile.tel}`}>{profile.tel}</a>
                       <br />
-                      <a href="tel:+123456789">WhatsApp</a>
+                      <a href={`https://wa.me/${profile.tel}`}>WhatsApp</a>
                     </p>
                   </div>
-                  <div className="mil-contact-card mil-mb-90">
-                    <p className="mil-upper mil-mb-30">Phone</p>
-                    <p>
-                      <a href="tel:+5636366060">+ 56 3636 60 60</a> <br />
-                      <a href="tel:+5663630606">+ 56 6363 06 06</a>
-                    </p>
-                  </div>
+                   
                 </div>
 
                 <div className="col-lg-7">

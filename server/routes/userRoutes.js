@@ -27,6 +27,16 @@ router.post('/register', upload.fields([{ name: 'image', maxCount: 1 }, { name: 
   if (!name || !profession || !description || !bio || !biohome || !email || !password) {
     return res.status(400).json({ message: 'All fields are required!' });
   }
+   // Vérification de la validité de l'email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: 'Invalid email format' });
+  }
+
+  // Vérification du mot de passe (exemple simple : minimum 6 caractères)
+  if (password.length < 6) {
+    return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+  }
 
   // Handle image file paths
   const image = req.files['image'] ? `/img/${req.files['image'][0].filename}` : null;
@@ -131,16 +141,24 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password!' });
     }
 
-    // Generate a JWT token
+    // Génération du token JWT
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Return the token to the frontend
-    return res.status(200).json({ message: 'Login successful!', token });
+    return res.status(200).json({
+      message: 'Login successful!',
+      token,
+      user: {
+        name: user.name,
+        email: user.email,
+        profession: user.profession,
+      },
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Server error, please try again later.' });
   }
 });
+
 
 // Route to get user profile by email
 router.get('/profile', async (req, res) => {
