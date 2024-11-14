@@ -26,7 +26,7 @@ const About = () => {
         <div className="row justify-content-between align-items-center">
           <div className="col-xl-4">
             <div className="mil-about-person mil-mb-30">
-              <img src={profile.image} alt={profile.name} className="mil-avatar" />
+              <img src={`http://localhost:5000${profile.image}`} alt={profile.name} className="mil-avatar" />
             </div>
           </div>
           <div className="col-xl-7">
@@ -78,8 +78,8 @@ export const About2 = () => {
         <div className="row justify-content-between align-items-center">
           <div className="col-xl-12">
             <div className="mil-text-center">
-              <div className="mil-about-person-2 mil-mb-30">
-                <img src={profile.imageprofile} alt={profile.name} className="mil-avatar" />
+            <div className="mil-about-person-2 mil-mb-30">
+                <img src={`http://localhost:5000${profile.imageprofile || ''}`} alt={profile.name} className="mil-avatar" />
               </div>
               <p className="mil-upper mil-mb-30">
                 {profile.profession}

@@ -45,7 +45,7 @@ const Education = () => {
             {educationData.map((edu) => (
               <div key={edu._id} className="mil-icon-box mil-mb-40">
                 <div className="mil-text-icon">
-                  <a href={edu.certificateImage} className="mfp-image">
+                  <a href={`http://localhost:5000${edu.certificateImage}`} className="mfp-image">
                     +
                   </a>
                 </div>

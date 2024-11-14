@@ -108,7 +108,7 @@ const PortfolioIsotope = () => {
                 <Link href={`/project/${projectId}`} legacyBehavior>
                   <div className="mil-portfolio-item mil-square-item mil-mb-60">
                     <div className="mil-cover">
-                      <img src={project.images[0]} alt={project.title} /> {/* Use the correct image URL */}
+                      <img src={`http://localhost:5000${project.images[0]}`} alt={project.title} /> {/* Use the correct image URL */}
                       <div className="mil-hover-link">
                         <i className="fas fa-link" />
                       </div>

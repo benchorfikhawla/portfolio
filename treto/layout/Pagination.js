@@ -11,7 +11,6 @@ const Pagination = ({ direction }) => {
       <div className="mil-dot" data-index={2} data-name="Education" />
       <div className="mil-dot" data-index={3} data-name="Experience" />
       <div className="mil-dot" data-index={4} data-name="Services" />
-      <div className="mil-dot" data-index={5} data-name="Testimonials" />
       <div className="mil-dot" data-index={6} data-name="Contacts" />
     </div>
   );

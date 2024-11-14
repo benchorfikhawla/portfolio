@@ -56,7 +56,7 @@ const Banner = ( { bgImage = "img/faces/6.jpg" } ) => {
           </div>
           <div className="col-xl-5">
             <img
-              src={profile.imageprofile}
+              src={`http://localhost:5000${profile.imageprofile}`}  
               alt="face"
               className="mil-banner-image"
             />
@@ -123,7 +123,7 @@ export const Banner2 = () => {
           </div>
           <div className="col-xl-5">
             <img
-              src="img/profile.png"
+             src={`http://localhost:5000${profile.image}`}
               alt="face"
               className="mil-banner-image"
             />

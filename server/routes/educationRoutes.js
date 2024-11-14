@@ -2,6 +2,21 @@
 const express = require('express');
 const Education = require('../models/Education');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+
+ // Configure multer to store files in the public/img directory
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/img'));  // Save to 'public/img' folder
+  },
+  filename: function (req, file, cb) {
+    const fileName = Date.now() + path.extname(file.originalname); // Unique file name based on timestamp
+    cb(null, fileName);
+  },
+});
+
+const upload = multer({ storage });
 
 // Get all education records
 router.get('/', async (req, res) => {
@@ -13,9 +28,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Add new education
-router.post('/', async (req, res) => {
-  const { title, institution, startDate, endDate, description, certificateImage } = req.body;
+// Add new education with image upload
+router.post('/', upload.single('certificateImage'), async (req, res) => {
+  const { title, institution, startDate, endDate, description } = req.body;
+  const certificateImage = req.file ? `/img/${req.file.filename}` : null; // Save the image path
 
   try {
     const newEducation = new Education({
@@ -33,9 +49,10 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update education
-router.put('/:id', async (req, res) => {
-  const { title, institution, startDate, endDate, description, certificateImage } = req.body;
+// Update education with image upload
+router.put('/:id', upload.single('certificateImage'), async (req, res) => {
+  const { title, institution, startDate, endDate, description } = req.body;
+  const certificateImage = req.file ? `/img/${req.file.filename}` : null; // Save the new image path
 
   try {
     const updatedEducation = await Education.findByIdAndUpdate(

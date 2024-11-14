@@ -39,7 +39,7 @@ const ProjectDetailsIsotope = ({ images }) => {
         <div key={index} className={`mil-grid-item ${image.category}`}>
           <div className="mil-project-img mil-square mil-mb-30">
             <a href={image.url} className="mfp-image">
-              <img src={image} alt="cover" /> 
+            <img key={index} src={`http://localhost:5000${image}`}  alt="image of poject"/> 
              {console.log(image)}  {/* Ensure image path is correct */}
             </a>
           </div>

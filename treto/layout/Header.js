@@ -24,7 +24,7 @@ const DefaultHeader = () => {
       <div className="mil-tp-frame">
         <Link legacyBehavior href="/">
           <a className="mil-logo">
-            <img src="/img/logo.png" alt="logo" />
+            <img src="/img/logonew.png" alt="logo" />
           </a>
         </Link>
         <Nav />
